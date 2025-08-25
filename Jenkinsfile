@@ -11,5 +11,10 @@ pipeline {
                 sh "pwd"
             }
         }
+        stage("Cleanup") {
+            steps {
+                cleanWs()
+            }
+        }
     }
 }
