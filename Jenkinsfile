@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            customWorkspace "src/other-repo"
+        }
+    }
     stages {
         stage("Start") {
             steps {
