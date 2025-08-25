@@ -2,7 +2,7 @@ pipeline {
     agent {
         node {
             label ""
-            customWorkspace "src/other-repo"
+            customWorkspace "workspace/repo-" + UUID.randomUUID().toString()
         }
     }
     stages {
