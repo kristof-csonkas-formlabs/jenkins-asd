@@ -20,15 +20,19 @@ pipeline {
     post {
         cleanup {
             script {
-                def pids = sh(
-                    script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
-                    returnStdout: true
-                )
-                    .replace("\\r", "")
-                    .split("\\n")
-                    .findResults {
-                        !it.isEmpty()
-                    }
+                @NonCPS
+                def getPids() {
+                    return sh(
+                        script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
+                        returnStdout: true
+                    )
+                        .replace("\\r", "")
+                        .split("\\n")
+                        .findResults {
+                            !it.isEmpty()
+                        }
+                }
+                def pids = getPids()
                 echo(pids.isEmpty().toString())
                 echo(pids)
                 if (!pids.isEmpty()) {
