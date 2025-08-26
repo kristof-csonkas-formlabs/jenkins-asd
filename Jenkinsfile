@@ -26,7 +26,7 @@ pipeline {
                 ).readLines().drop(1).dropRight(1) // header, terminating empty line
                 echo("taskkill /F /T /PID ${pids.join(" /PID ")}")
                 if (!pids.isEmpty()) {
-                    sh(
+                    bat(
                         script: "taskkill /F /T /PID ${pids.join(" /PID ")}"
                     )
                 }
