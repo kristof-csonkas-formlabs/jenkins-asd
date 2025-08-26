@@ -5,7 +5,7 @@ def killProcesses(dir) {
 pipeline {
     agent {
         node {
-            label ""
+            label "windows"
             customWorkspace "workspace/repo-" + UUID.randomUUID().toString()
         }
     }
