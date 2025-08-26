@@ -20,7 +20,7 @@ pipeline {
     post {
         cleanup {
             script {
-                def escapedWorkspace = WORKSPACE.replaceAll("\\", "\\\\")
+                def escapedWorkspace = WORKSPACE.replace("\\", "\\\\")
             }
             sh "wmic process where 'ExecutablePath=\"${escapedWorkspace}\"' get ProcessId"
         }
