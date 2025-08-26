@@ -9,6 +9,7 @@ def getPids() {
     )
         .replace("\\r", "")
         .split("\\n")
+        .toList()
         .drop(1)
         .dropRight(1)
         .each {
