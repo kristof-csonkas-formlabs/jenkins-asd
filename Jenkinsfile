@@ -23,7 +23,12 @@ pipeline {
                 def pids = sh(
                     script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
                     returnStdout: true
-                ).replace("\\r", "").split("\\n").dropRight(1)
+                )
+                    .replace("\\r", "")
+                    .split("\\n")
+                    .findResults {
+                        !it.isEmpty()
+                    }
                 echo(pids.isEmpty().toString())
                 echo(pids)
                 if (!pids.isEmpty()) {
