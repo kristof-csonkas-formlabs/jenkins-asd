@@ -1,3 +1,7 @@
+def killProcesses(dir) {
+
+}
+
 pipeline {
     agent {
         node {
@@ -8,13 +12,14 @@ pipeline {
     stages {
         stage("Start") {
             steps {
+                cleanWs()
                 sh "pwd"
             }
         }
     }
     post {
         cleanup {
-            cleanWs()
+            sh "wmic process ExecutablePath=\"$WORKSPACE\" get ProcessId"
         }
     }
 }
