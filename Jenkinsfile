@@ -19,7 +19,17 @@ pipeline {
     }
     post {
         cleanup {
-            sh "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId"
+            script {
+                pids = sh(
+                    script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
+                    returnStdout: true
+                ).readLines().drop(1) // header
+                if (!pids.isEmpty()) {
+                    sh(
+                        script: "taskkill /F /T /PID ${pids.join(" /PID ")}"
+                    )
+                }
+            }
         }
     }
 }
