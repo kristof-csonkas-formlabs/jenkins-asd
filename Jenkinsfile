@@ -19,7 +19,7 @@ pipeline {
     }
     post {
         cleanup {
-            sh "wmic process where ExecutablePath=\"$WORKSPACE\" get ProcessId"
+            sh "wmic process where 'ExecutablePath=\"$WORKSPACE\"' get ProcessId"
         }
     }
 }
