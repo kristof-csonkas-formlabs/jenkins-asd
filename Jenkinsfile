@@ -19,7 +19,7 @@ pipeline {
     }
     post {
         cleanup {
-            sh "wmic process where 'ExecutablePath=\"${WORKSPACE.replace("\\", "\\\\")}\"' get ProcessId"
+            sh "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId"
         }
     }
 }
