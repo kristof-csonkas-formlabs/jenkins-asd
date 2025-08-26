@@ -3,8 +3,8 @@ def killProcesses(dir) {
 }
 @NonCPS
 def getPids() {
-    return sh(
-        script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
+    return bat(
+        script: "@wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
         returnStdout: true
     )
         .replace("\\r", "")
