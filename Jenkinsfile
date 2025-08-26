@@ -14,6 +14,7 @@ def getPids() {
         .each {
             it.trim()
         }
+        .join(" /PID ")
 }
 
 pipeline {
