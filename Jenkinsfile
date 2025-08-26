@@ -11,10 +11,10 @@ pipeline {
                 sh "pwd"
             }
         }
-        stage("Cleanup") {
-            steps {
-                cleanWs()
-            }
+    }
+    post {
+        cleanup {
+            cleanWs()
         }
     }
 }
