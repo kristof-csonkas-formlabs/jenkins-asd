@@ -1,6 +1,18 @@
 def killProcesses(dir) {
 
 }
+@NonCPS
+def getPids() {
+    return sh(
+        script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
+        returnStdout: true
+    )
+        .replace("\\r", "")
+        .split("\\n")
+        .findResults {
+            !it.isEmpty()
+        }
+}
 
 pipeline {
     agent {
@@ -20,18 +32,6 @@ pipeline {
     post {
         cleanup {
             script {
-                @NonCPS
-                def getPids() {
-                    return sh(
-                        script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
-                        returnStdout: true
-                    )
-                        .replace("\\r", "")
-                        .split("\\n")
-                        .findResults {
-                            !it.isEmpty()
-                        }
-                }
                 def pids = getPids()
                 echo(pids.isEmpty().toString())
                 echo(pids)
