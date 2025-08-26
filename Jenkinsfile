@@ -20,12 +20,12 @@ pipeline {
     post {
         cleanup {
             script {
-                pids = sh(
+                def pids = sh(
                     script: "wmic process where 'ExecutablePath LIKE \"${WORKSPACE.replace("\\", "\\\\")}%\"' get ProcessId",
                     returnStdout: true
                 ).readLines().drop(1).dropRight(1) // header, terminating empty line
                 echo(pids.join("\n"))
-                echo("taskkill /F /T /PID ${pids.join(" /PID ")}")
+                echo(pids.isEmpty().toString())
                 if (!pids.isEmpty()) {
                     bat(
                         script: "taskkill /F /T /PID ${pids.join(" /PID ")}"
